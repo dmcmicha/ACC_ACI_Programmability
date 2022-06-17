@@ -1,0 +1,26 @@
+---
+- name: Tenant configuration with rest call
+  hosts: "{{ host_name }}"
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Add a tenant using a JSON string
+    aci_rest:
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: no
+      path: /api/mo/uni.json
+      method: post
+      content: 
+        {
+          "fvTenant": {
+            "attributes": {
+              "name": "{{ tenant }}",
+              "dn": "uni/tn-{{ tenant }}",
+              "descr": "Tenant configured with AWX-Ansible and ACI REST API"
+            }
+          }
+        }
+    delegate_to: localhost

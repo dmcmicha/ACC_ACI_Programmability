@@ -1,0 +1,3 @@
+tenant,vrf,bd,bd_gateway,bd_mask,bd_scope,ap,epg1,epg2,epg3,contract1,contract2,filter1,filter2,filter1_entry,filter2_entry,protocol,subject1,subject2,port1,port2,contract_type1,contract_type2
+AWX-ACI-ACC-Workflow,csv-vrf,csv-bd,10.1.1.1,24,private,csv_ap,web,app,db,web_to_app,app_to_db,web_to_app,app_to_db,http_entry,db_entry,tcp,web_to_app_sub,app_to_db_sub,80,1433,consumer,provider
+AWX-ACI-ACC-Workflow,csv-vrf-2,csv-bd-2,10.2.1.1,24,private,csv_ap-2,web-2,app-2,db-2,web_to_app-2,app_to_db-2,web_to_app-2,app_to_db-2,http_entry,db_entry,tcp,web_to_app_sub-2,app_to_db_sub-2,80,1433,consumer,provider
