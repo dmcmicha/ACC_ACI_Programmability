@@ -7,14 +7,14 @@
   tasks:
   # Read a CSV file and access Tenant csv
   - name: Read data from CSV file to be used to configure ACI
-    read_csv:
+    community.general.read_csv:
       path: tenant.csv
       # key: tenant
     register: mytenant
     delegate_to: localhost
 
   - name: Create ansible-VRF
-    aci_vrf:
+    cisco.aci.aci_vrf:
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -31,7 +31,7 @@
         vrf: "{{ mytenant.list.1.vrf }}"
 
   - name: Creating BDs with CSV file
-    aci_bd:
+    cisco.aci.aci_bd:
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -54,7 +54,7 @@
         bd: "{{ mytenant.list.1.bd }}"
 
   - name: Creating ansible-BD Subnet using CSV
-    aci_bd_subnet:
+    cisco.aci.aci_bd_subnet:
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -82,7 +82,7 @@
         scope: "{{ mytenant.list.1.bd_scope }}"
 
   - name: Create ansible-AP
-    aci_ap:
+    cisco.aci.aci_ap:
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -99,7 +99,7 @@
         app_pro: "{{ mytenant.list.1.ap }}"
 
   - name: Creating EPGs
-    aci_epg:
+    cisco.aci.aci_epg:
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -140,7 +140,7 @@
         epg: "{{ mytenant.list.1.epg3 }}"
 
   - name: Creating Contracts
-    aci_contract:
+    cisco.aci.aci_contract:
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -164,7 +164,7 @@
         tenant: "{{ mytenant.list.1.tenant }}"
 
   - name: Add Filters
-    aci_filter:
+    cisco.aci.aci_filter:
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -188,7 +188,7 @@
 
 
   - name: Add Port 80 and 1433 to Filter entries
-    aci_filter_entry:
+    cisco.aci.aci_filter_entry:
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -227,7 +227,7 @@
         protocol: "{{ mytenant.list.1.protocol }}"
 
   - name: Bind subjects to contracts
-    aci_contract_subject:
+    cisco.aci.aci_contract_subject:
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -256,7 +256,7 @@
         subject: "{{ mytenant.list.1.subject2 }}"
 
   - name: Bind Contract Subjects to filter
-    aci_contract_subject_to_filter:
+    cisco.aci.aci_contract_subject_to_filter:
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -288,7 +288,7 @@
         subject: "{{ mytenant.list.1.subject2 }}"
 
   - name: Bind EPGs to Contract
-    aci_epg_to_contract:
+    cisco.aci.aci_epg_to_contract:
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
