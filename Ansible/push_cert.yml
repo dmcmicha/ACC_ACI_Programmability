@@ -1,0 +1,67 @@
+# Signature-based Cert Playbook
+# Playbook creates a local user (Ansible) and associates a
+# locally created cert with the account and also
+# uses the ACI Rest module to set the domain privileges to all
+#
+---
+# User certificate
+- name: Push x509 cert and create user Ansible for signature based authentication
+  hosts: apic
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Add a user
+    aci_aaa_user:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      aaa_user: "{{ new_user }}"
+      aaa_password: "{{ new_user_pass }}"
+      expiration: never
+      expires: no
+      email: customer_success@cisco.com
+      first_name: Customer
+      last_name: Success
+      validate_certs: no
+      state: present
+      description: user created with ansible for a CS accelerator
+
+  - name: Add a certificate to user ansible
+    aci_aaa_user_certificate:
+      use_proxy: no
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      aaa_user: "{{ new_user }}"
+      certificate_name: "{{ new_user }}"
+      certificate_data: "{{ lookup('file', '{{ new_user }}.crt') }}"
+      validate_certs: no
+      state: present
+
+  - name: Add admin privileges to allow Ansible user to make changes
+    aci_rest:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: no
+      path: "/api/node/mo/uni/userext/user-{{ new_user }}/userdomain-all.json"
+      method: post
+      content:
+        {"aaaUserDomain":
+          {"attributes":{
+            "name":"all",
+            "rn":"userdomain-all",
+            },
+            "children":[
+              {"aaaUserRole":
+                {"attributes":{
+                  "name":"admin","privType":"writePriv",
+                  "rn":"role-admin",
+                  },
+                  "children":[]
+                }
+              }
+              ]
+          }
+        }
