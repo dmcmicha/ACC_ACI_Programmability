@@ -1,0 +1,5 @@
+apic_url = "https://198.18.133.200"
+apic_username = "admin"
+apic_password = "C1sco12345"
+new_tenant = "ACI-ACC-Tenant-Terraform"
+new_vrf = "ACC-Terraform-VRF"
