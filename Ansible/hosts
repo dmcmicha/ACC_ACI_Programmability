@@ -1,0 +1,2 @@
+[apic]
+198.18.133.200 username=admin password=C1sco12345 new_user=ansible new_user_pass=C1sco12345! ansible_python_interpreter=/usr/bin/python3
